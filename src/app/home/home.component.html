@@ -1,0 +1,183 @@
+
+<div class="body-container">
+   
+    <div>
+        
+            <div class="page-title">
+                <h2>View All Issues</h2>
+               
+            </div>
+            <div>
+                <button class="btn btn-sm btn-info" (click)="open(content)" >
+                    <i class="fa fa-search"></i>Add Details</button>
+            </div>
+            
+            
+            <div class="grid-view">
+
+                <table class="table table-striped">
+                  <!-- <table border ='1' cellpadding = "15"> -->
+                    <thead>
+                        <tr>
+                            <th>S NO</th>
+                            <th>Name </th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Priority</th>
+                            <th>Action</th>
+                           
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let issue of issueList; index as i;">
+                             <td>{{i+1}}</td> 
+                            <td>{{issue.projectName}}</td>
+                            <td>{{issue.title}}</td>
+
+                            <td>{{issue.description}}</td>
+                            <td>{{issue.priority}}</td>
+                            
+                            <td>
+                                <button class="btn btn-sm btn-info" (click)="displaypop(issue, displayIssue)">
+                                  <i class="fa fa-search"></i>Details</button>
+
+                                  <button class = "btn btn-sm btn-warning" (click)="editIssue(issue,content)">
+                                      <i class = 'far'>&#xf044;</i> Edit </button> 
+                            
+                                <button class="btn btn-sm btn-danger" (click)="deleteIssue(issue)">
+                                  <i class="fa fa-remove"></i>Delete</button>
+                              </td>
+                            <!-- <td>{{drone.hub_id}}</td>
+                                
+
+                            <td>{{drone.drone_category}}</td>
+
+                            <td>{{drone.drone_manufacture_name}}</td> -->
+                           
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+        
+    </div>
+
+<!-- 
+    <ng-template #droneAddPopUp let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Add New Drone</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+        </div>
+        <form [formGroup]="addingIssueForm" >
+            <div class="modal-body">
+                <div class="approve-content">
+                   
+                    <div class="col-md-12 form-group">
+                        <input type="text" formControlName="Project Name" id="projectName" placeholder="projectName" >
+                      
+                        <span class="error_msg_display" id="drone_uin_error" *ngIf="addingIssueForm.get('drone_uin').errors && (addingIssueForm.get('drone_uin').touched) ">
+              <span *ngIf="addingIssueForm.get('drone_uin').errors.required">
+                Drone UIN is Required
+              </span>
+                        </span>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-success"[disabled]="addingIssueForm.invalid" (click)="onSubmitDetails()"  type="button">Save</button>
+            </div>
+        </form>
+    </ng-template> -->
+
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      
+      <h4 class="modal-title" id="modal-basic-title">New Issue</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="projectName">Project Name</label>
+          <div class="input-group">
+            <!-- <input id="projectName"  > -->
+            <input id="projectName"  class="form-control" type="text" [formControl]="projectName" required>
+          </div>
+          <label for="title">Project Titel</label>
+          <div class="input-group">
+            <!-- <input id="title" class="form-control" > -->
+            <input id="title"  class="form-control" type="text" [formControl]="title" required>
+
+          </div>
+          <label for="Description">Project Description</label>
+          <div class="input-group">
+            <!-- <input id="description" class="form-control" > -->
+            <input id="description"  class="form-control" type="text" [formControl]="description" required>
+
+          </div>
+
+          <label for="priority">Priority </label>
+          <div class="input-group" >
+            
+                <!-- <input id="description" class="form-control" > -->
+                <input id="priority"  class="form-control" type="text" [formControl]="priority"  maxlength="1" pattern=".*\S+.*" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+    
+              
+        </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="savedata()">Save</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #displayIssue let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">New Issue</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label for="projectName"><b> Project Name</b></label>&nbsp;
+            <label for="Name">{{currIssue.projectName}}</label>
+        </div>
+        <div class="form-group">
+            <label for="projectTitle"><b>Project Title </b></label>&nbsp;
+            <label for="Name">{{currIssue.title}}</label>
+        </div>
+        <div class="form-group">
+            <label for="Description"><b> Project Description</b></label>&nbsp;
+            <label for="Description">{{currIssue.description}}</label>
+            
+        </div>
+        <div class="form-group">
+            <label for="priorty"><b> Project Priority</b></label>&nbsp;
+            <label for="priorty">{{currIssue.priority}}</label>
+        </div>
+        <div class="form-group">
+            <label for="projectName"><b> Created Date</b></label>&nbsp;
+            <label for="priorty">{{currIssue.created_Date|date:'medium'}}</label>
+        </div>
+        <div class="form-group">
+            <label for="projectName"><b> Updated Date</b></label>&nbsp;
+            <label for="priorty">{{currIssue.updated_Date|date:'medium'}}</label>
+        </div>
+      </div>
+
+
+  </ng-template>
+  
