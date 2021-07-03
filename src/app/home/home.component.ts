@@ -10,7 +10,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-// addingIssueForm :  FormControl;
+
 issueList:any;
 currIssue:any;
  closeResult = '';
@@ -21,8 +21,7 @@ currIssue:any;
  priority = new FormControl('');
  created_Date = new FormControl('');
  updated_Date = new FormControl('');
- //  closeResult: string;
-  // constructor(private issueService:IssueServiceService, private modalService: NgbModal) { }
+ 
   constructor(
 
     private issueService:IssueServiceService, 
@@ -45,6 +44,7 @@ currIssue:any;
 } )
   }
 
+  
   open(content:any) {
     
     this.modalService.open(content,
@@ -85,9 +85,7 @@ currIssue:any;
      "description": this.description.value,
      "priority": this.priority.value
    }
-  //  console.log(issueData);
-  //  console.log(this.priority)
-  //  return
+  
   this.issueService.submitIssue(issueData).subscribe((resp:any)=>{
     var respVal;
     respVal = resp;
@@ -134,7 +132,7 @@ displaypop(issue:any, displayIssue:any){
   var respVal;
   respVal = resp.data;
 this.currIssue = respVal[0];
-// console.log(this.currIssue)
+
 this.open(displayIssue);
 return
   })
